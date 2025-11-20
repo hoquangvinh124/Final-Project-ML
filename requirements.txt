@@ -1,0 +1,44 @@
+# Coffee Shop Application Requirements
+# Python 3.8+
+
+# GUI Framework
+PyQt6==6.6.1
+PyQt6-Qt6==6.6.1
+PyQt6-sip==13.6.0
+
+# Database
+mysql-connector-python==8.2.0
+
+# Excel support for bulk import
+openpyxl==3.1.2
+
+# For future enhancements
+requests==2.31.0  # For API calls (payment gateways, ML analytics API, etc.)
+# pillow==10.1.0    # For image processing
+# qrcode==7.4.2     # For QR code generation (table ordering)
+# python-dotenv==1.0.0  # For environment variables
+# Core dependencies
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+
+# Data science libraries
+pandas==2.1.4
+numpy==1.26.3
+
+# Time series forecasting
+prophet==1.1.5
+
+# Additional dependencies for Prophet
+pystan==3.8.0
+cmdstanpy==1.2.0
+
+# Visualization (if needed)
+matplotlib==3.8.2
+seaborn==0.13.1
+
+# Utilities
+python-dateutil==2.8.2
+
+# AI and LLM
+openai==1.12.0

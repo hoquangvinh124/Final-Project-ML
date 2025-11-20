@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LoginWindow</class>
+ <widget class="QWidget" name="LoginWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Đăng nhập - Coffee Shop</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="logoLabel">
+     <property name="text">
+      <string>☕ Coffee Shop</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="titleLabel">
+     <property name="text">
+      <string>Đăng nhập</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="emailLineEdit">
+     <property name="placeholderText">
+      <string>Email</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="passwordLineEdit">
+     <property name="echoMode">
+      <enum>QLineEdit::Password</enum>
+     </property>
+     <property name="placeholderText">
+      <string>Mật khẩu</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QCheckBox" name="rememberMeCheckBox">
+     <property name="text">
+      <string>Ghi nhớ đăng nhập</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="loginButton">
+     <property name="text">
+      <string>Đăng nhập</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="forgotPasswordButton">
+     <property name="text">
+      <string>Quên mật khẩu?</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="orLabel">
+     <property name="text">
+      <string>hoặc</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="googleLoginButton">
+     <property name="text">
+      <string>Đăng nhập với Google</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="appleLoginButton">
+     <property name="text">
+      <string>Đăng nhập với Apple ID</string>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="registerLabel">
+     <property name="text">
+      <string>Chưa có tài khoản?</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QPushButton" name="registerButton">
+     <property name="text">
+      <string>Đăng ký ngay</string>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
