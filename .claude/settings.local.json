@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python admin.py:*)",
+      "Bash(git checkout:*)",
+      "Bash(Remove-Item \"c:\\Final-Project-ML\\uv.lock\" -Force)",
+      "Bash(rm:*)",
+      "Bash(python:*)",
+      "Bash(pip install:*)",
+      "Bash(.venvScriptspython.exe -m pip install pandas numpy scikit-learn xgboost lightgbm catboost matplotlib seaborn joblib scipy)",
+      "Bash(dir:*)",
+      "Bash(if not exist \"c:\\Final-Project-ML\\log_model\\results\" mkdir \"c:\\Final-Project-ML\\log_model\\results\")"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

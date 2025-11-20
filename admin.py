@@ -17,7 +17,6 @@ from views.admin_login_ex import AdminLoginWidget
 from views.admin_main_window_ex import AdminMainWindow
 from views.admin_dashboard_ex import AdminDashboardWidget
 from views.admin_orders_ex import AdminOrdersWidget
-from PyQt6.QtWidgets import QWidget, QLabel, QVBoxLayout
 from utils.database import db
 from utils.config import STYLES_DIR, APP_NAME
 
@@ -164,12 +163,7 @@ class CoffeeShopAdminApp:
         kpi_widget = AdminLogisticKPIWidget()
         self.main_window.add_content_page(kpi_widget)
 
-        # Reports (placeholder for now)
-        reports_page = QWidget()
-        reports_layout = QVBoxLayout(reports_page)
-        self.main_window.add_content_page(reports_page)
-
-        # ML Analytics - Revenue Forecasting
+        # ML Analytics - Revenue Forecasting (index 7)
         from views.admin_ml_analytics_ex import AdminMLAnalyticsWidget
         ml_analytics_widget = AdminMLAnalyticsWidget()
         self.main_window.add_content_page(ml_analytics_widget)

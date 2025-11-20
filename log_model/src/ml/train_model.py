@@ -367,18 +367,18 @@ class LogisticsKPIPredictor:
     def plot_results(self, y_test, predictions, model_name, r2_score_val):
         """Plot prediction results"""
         fig, axes = plt.subplots(1, 3, figsize=(18, 5))
-        
+
         # Actual vs Predicted
         axes[0].scatter(y_test, predictions, alpha=0.5, s=20)
-        axes[0].plot([y_test.min(), y_test.max()], 
-                    [y_test.min(), y_test.max()], 
+        axes[0].plot([y_test.min(), y_test.max()],
+                    [y_test.min(), y_test.max()],
                     'r--', lw=2, label='Perfect Prediction')
         axes[0].set_xlabel('Actual KPI Score')
         axes[0].set_ylabel('Predicted KPI Score')
         axes[0].set_title(f'{model_name}\nR² = {r2_score_val:.4f}')
         axes[0].legend()
         axes[0].grid(True, alpha=0.3)
-        
+
         # Residuals
         residuals = y_test - predictions
         axes[1].scatter(predictions, residuals, alpha=0.5, s=20)
@@ -387,7 +387,7 @@ class LogisticsKPIPredictor:
         axes[1].set_ylabel('Residuals')
         axes[1].set_title('Residual Plot')
         axes[1].grid(True, alpha=0.3)
-        
+
         # Residuals distribution
         axes[2].hist(residuals, bins=50, edgecolor='black', alpha=0.7)
         axes[2].axvline(x=0, color='r', linestyle='--', lw=2)
@@ -395,9 +395,17 @@ class LogisticsKPIPredictor:
         axes[2].set_ylabel('Frequency')
         axes[2].set_title(f'Residual Distribution\nMean: {residuals.mean():.4f}, Std: {residuals.std():.4f}')
         axes[2].grid(True, alpha=0.3)
-        
+
         plt.tight_layout()
-        plt.savefig(f'results_{model_name.replace(" ", "_")}.png', dpi=300, bbox_inches='tight')
+
+        # Get path relative to log_model directory
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        results_dir = os.path.join(script_dir, '..', '..', 'results')
+        results_dir = os.path.normpath(results_dir)
+        os.makedirs(results_dir, exist_ok=True)
+
+        output_path = os.path.join(results_dir, f'results_{model_name.replace(" ", "_")}.png')
+        plt.savefig(output_path, dpi=300, bbox_inches='tight')
         plt.show()
     
     def plot_feature_importance(self, model, model_name, top_n=20):
@@ -408,7 +416,7 @@ class LogisticsKPIPredictor:
                 'feature': self.feature_names,
                 'importance': importance
             }).sort_values('importance', ascending=False).head(top_n)
-            
+
             plt.figure(figsize=(10, 8))
             plt.barh(range(len(feature_importance_df)), feature_importance_df['importance'])
             plt.yticks(range(len(feature_importance_df)), feature_importance_df['feature'])
@@ -416,29 +424,40 @@ class LogisticsKPIPredictor:
             plt.title(f'Top {top_n} Feature Importance - {model_name}')
             plt.gca().invert_yaxis()
             plt.tight_layout()
-            plt.savefig(f'feature_importance_{model_name.replace(" ", "_")}.png', 
-                       dpi=300, bbox_inches='tight')
+
+            # Get path relative to log_model directory
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            results_dir = os.path.join(script_dir, '..', '..', 'results')
+            results_dir = os.path.normpath(results_dir)
+            os.makedirs(results_dir, exist_ok=True)
+
+            output_path = os.path.join(results_dir, f'feature_importance_{model_name.replace(" ", "_")}.png')
+            plt.savefig(output_path, dpi=300, bbox_inches='tight')
             plt.show()
-            
+
             return feature_importance_df
     
     def save_model(self, model, model_name):
         """Save trained model and preprocessing objects"""
-        os.makedirs('models', exist_ok=True)
-        
+        # Get path relative to log_model directory
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        models_dir = os.path.join(script_dir, '..', '..', 'models')
+        models_dir = os.path.normpath(models_dir)
+        os.makedirs(models_dir, exist_ok=True)
+
         timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        model_path = f'models/{model_name.replace(" ", "_")}_{timestamp}.pkl'
-        scaler_path = f'models/scaler_{timestamp}.pkl'
-        encoders_path = f'models/encoders_{timestamp}.pkl'
-        
+        model_path = os.path.join(models_dir, f'{model_name.replace(" ", "_")}_{timestamp}.pkl')
+        scaler_path = os.path.join(models_dir, f'scaler_{timestamp}.pkl')
+        encoders_path = os.path.join(models_dir, f'encoders_{timestamp}.pkl')
+
         joblib.dump(model, model_path)
         joblib.dump(self.scaler, scaler_path)
         joblib.dump(self.label_encoders, encoders_path)
-        
+
         print(f"\n✅ Model saved: {model_path}")
         print(f"✅ Scaler saved: {scaler_path}")
         print(f"✅ Encoders saved: {encoders_path}")
-        
+
         return model_path
     
     def run_pipeline(self, filepath):
@@ -528,14 +547,22 @@ class LogisticsKPIPredictor:
         
         # Save best model
         model_path = self.save_model(self.best_model, best_model_name)
-        
+
+        # Get path relative to log_model directory for results
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        results_dir = os.path.join(script_dir, '..', '..', 'results')
+        results_dir = os.path.normpath(results_dir)
+        os.makedirs(results_dir, exist_ok=True)
+
         # Save results
-        results_df.to_csv('model_comparison_results.csv')
-        print("\n✅ Results saved: model_comparison_results.csv")
-        
+        results_csv_path = os.path.join(results_dir, 'model_comparison_results.csv')
+        results_df.to_csv(results_csv_path)
+        print(f"\n✅ Results saved: {results_csv_path}")
+
         if feature_imp is not None:
-            feature_imp.to_csv('feature_importance.csv', index=False)
-            print("✅ Feature importance saved: feature_importance.csv")
+            feature_imp_csv_path = os.path.join(results_dir, 'feature_importance.csv')
+            feature_imp.to_csv(feature_imp_csv_path, index=False)
+            print(f"✅ Feature importance saved: {feature_imp_csv_path}")
         
         print("\n" + "="*80)
         print("PIPELINE COMPLETED SUCCESSFULLY!")
@@ -554,8 +581,14 @@ class LogisticsKPIPredictor:
 if __name__ == "__main__":
     # Initialize predictor
     predictor = LogisticsKPIPredictor(random_state=42)
-    
+
+    # Get absolute path to data file
+    import os
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    data_path = os.path.join(script_dir, '..', '..', 'data', 'logistics_dataset.csv')
+    data_path = os.path.normpath(data_path)
+
     # Run complete pipeline
-    results = predictor.run_pipeline('data/logistics_dataset.csv')
-    
+    results = predictor.run_pipeline(data_path)
+
     print("\n🎉 Training completed! Check the generated files for detailed results.")

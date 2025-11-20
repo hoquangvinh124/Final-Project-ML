@@ -84,7 +84,7 @@ MODERN_STYLESHEET = STYLES_DIR / 'modern_style.qss'
 CLASSIC_STYLESHEET = STYLES_DIR / 'style.qss'
 
 # AI Agent Settings
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '')  # Set your OpenAI API key here or in .env
+OPENAI_API_KEY = os.getenv('OPENAI_API_KEY', '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')  # Set your OpenAI API key here or in .env
 OPENAI_MODEL = os.getenv('OPENAI_MODEL', 'gpt-4o-mini')  # or 'gpt-3.5-turbo' for faster/cheaper
 AI_AGENT_TEMPERATURE = 0.1  # Low temperature for more deterministic SQL generation
 AI_AGENT_MAX_TOKENS = 2000

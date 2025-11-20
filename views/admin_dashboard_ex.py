@@ -2,10 +2,11 @@
 Admin Dashboard Widget - Extended Logic
 Display admin statistics and recent orders
 """
-from PyQt6.QtWidgets import QWidget, QPushButton, QTableWidgetItem, QHBoxLayout, QHeaderView
+from PyQt6.QtWidgets import QWidget, QPushButton, QTableWidgetItem, QHBoxLayout, QHeaderView, QMessageBox
 from PyQt6.QtCore import Qt, QTimer
 from ui_generated.admin_dashboard import Ui_AdminDashboardWidget
 from controllers.admin_controller import AdminController
+from controllers.admin_order_controller import AdminOrderController
 from utils.validators import format_currency
 from datetime import datetime
 
@@ -26,6 +27,7 @@ class AdminDashboardWidget(QWidget, Ui_AdminDashboardWidget):
         self.recentOrdersTable.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
 
         self.admin_controller = AdminController()
+        self.order_controller = AdminOrderController()
 
         # Load data
         self.load_stats()
@@ -163,10 +165,55 @@ class AdminDashboardWidget(QWidget, Ui_AdminDashboardWidget):
         }
         return color_map.get(status, QColor('#000000'))
 
+    def get_order_type_text(self, order_type):
+        """Get order type text"""
+        type_map = {
+            'pickup': 'Lấy tại cửa hàng',
+            'delivery': 'Giao hàng',
+            'dine_in': 'Tại quầy'
+        }
+        return type_map.get(order_type, order_type)
+
     def handle_view_order(self, order):
         """Handle view order button click"""
-        # TODO: Open order detail dialog
-        print(f"View order: {order['id']}")
+        # Get full order details
+        order_details = self.order_controller.get_order_details(order['id'])
+
+        if not order_details:
+            QMessageBox.warning(self, "Lỗi", "Không thể tải thông tin đơn hàng")
+            return
+
+        # Show order details dialog
+        msg = f"""
+<h2>Đơn hàng #{order_details['id']}</h2>
+
+<h3>Thông tin khách hàng:</h3>
+<p>
+Tên: {order_details.get('customer_name', 'N/A')}<br>
+Email: {order_details.get('customer_email', 'N/A')}<br>
+SĐT: {order_details.get('customer_phone', 'N/A')}
+</p>
+
+<h3>Thông tin đơn hàng:</h3>
+<p>
+Loại: {self.get_order_type_text(order_details['order_type'])}<br>
+Cửa hàng: {order_details.get('store_name', 'N/A')}<br>
+Trạng thái: {self.get_status_text(order_details['status'])}<br>
+Tổng tiền: {format_currency(order_details['total_amount'])}<br>
+Phương thức thanh toán: {order_details.get('payment_method', 'N/A')}
+</p>
+        """
+
+        if order_details.get('delivery_address'):
+            msg += f"<p>Địa chỉ giao: {order_details['delivery_address']}</p>"
+
+        if order_details.get('notes'):
+            msg += f"<p>Ghi chú: {order_details['notes']}</p>"
+
+        msgbox = QMessageBox(self)
+        msgbox.setWindowTitle("Chi tiết đơn hàng")
+        msgbox.setText(msg)
+        msgbox.exec()
 
     def refresh(self):
         """Refresh dashboard data"""

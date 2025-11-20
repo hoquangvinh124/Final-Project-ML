@@ -131,7 +131,10 @@ class MplCanvas(FigureCanvasQTAgg):
         self.axes = self.fig.add_subplot(111)
         super().__init__(self.fig)
         self.setParent(parent)
-        
+
+        # Enable smooth scrolling - don't capture wheel events
+        self.setFocusPolicy(Qt.FocusPolicy.NoFocus)
+
         # Styling
         self.fig.tight_layout(pad=2.0)
         self.axes.spines['top'].set_visible(False)
@@ -140,6 +143,10 @@ class MplCanvas(FigureCanvasQTAgg):
         self.axes.spines['bottom'].set_color('#e0e0e0')
         self.axes.tick_params(colors='#7f8c8d', which='both')
         self.axes.grid(True, alpha=0.2, linestyle='--')
+
+    def wheelEvent(self, event):
+        """Forward wheel events to parent for smooth scrolling"""
+        event.ignore()  # Let parent handle scrolling
 
 
 
@@ -390,13 +397,16 @@ class AdminLogisticKPIWidget(QWidget):
         """Create enhanced dashboard with charts and metrics"""
         tab = QWidget()
         tab.setStyleSheet("background: #f5f6fa;")
-        
+
         # Create scroll area for dashboard
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setFrameShape(QScrollArea.Shape.NoFrame)
         scroll.setStyleSheet("""
-            QScrollArea { 
-                border: none; 
+            QScrollArea {
+                border: none;
                 background: transparent;
             }
             QScrollBar:vertical {
@@ -762,15 +772,18 @@ class AdminLogisticKPIWidget(QWidget):
         tab = QWidget()
         tab.setStyleSheet("background: #f5f6fa;")
         layout = QVBoxLayout(tab)
-        layout.setContentsMargins(20, 20, 20, 20)
-        layout.setSpacing(20)
+        layout.setContentsMargins(0, 0, 0, 0)
+        layout.setSpacing(0)
         
         # Scroll area for form
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setFrameShape(QScrollArea.Shape.NoFrame)
         scroll.setStyleSheet("""
-            QScrollArea { 
-                border: none; 
+            QScrollArea {
+                border: none;
                 background: transparent;
             }
             QScrollBar:vertical {
@@ -792,6 +805,7 @@ class AdminLogisticKPIWidget(QWidget):
         form_widget = QWidget()
         form_widget.setStyleSheet("background: transparent;")
         form_layout = QVBoxLayout(form_widget)
+        form_layout.setContentsMargins(20, 20, 20, 20)
         form_layout.setSpacing(20)
         
         # Input form with 2-column grid layout
@@ -1244,9 +1258,12 @@ class AdminLogisticKPIWidget(QWidget):
         # Create scroll area for the entire tab
         scroll = QScrollArea()
         scroll.setWidgetResizable(True)
+        scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
+        scroll.setFrameShape(QScrollArea.Shape.NoFrame)
         scroll.setStyleSheet("""
-            QScrollArea { 
-                border: none; 
+            QScrollArea {
+                border: none;
                 background: transparent;
             }
             QScrollBar:vertical {
@@ -2087,10 +2104,10 @@ class AdminLogisticKPIWidget(QWidget):
     
     def download_template(self):
         """Download CSV template"""
-        template_path = Path(__file__).parent.parent / 'templates' / 'logistics_kpi_template.csv'
-        
+        template_path = Path(__file__).parent.parent / 'logistics_kpi_template.csv'
+
         if not template_path.exists():
-            QMessageBox.warning(self, "Lỗi", "Template file không tồn tại!")
+            QMessageBox.warning(self, "Lỗi", f"Template file không tồn tại tại: {template_path}")
             return
         
         # Ask where to save
