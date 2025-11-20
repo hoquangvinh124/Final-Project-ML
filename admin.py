@@ -159,10 +159,14 @@ class CoffeeShopAdminApp:
         vouchers_widget = AdminVouchersWidget()
         self.main_window.add_content_page(vouchers_widget)
 
+        # KPI Prediction
+        from views.admin_logistic_kpi_ex import AdminLogisticKPIWidget
+        kpi_widget = AdminLogisticKPIWidget()
+        self.main_window.add_content_page(kpi_widget)
+
         # Reports (placeholder for now)
         reports_page = QWidget()
         reports_layout = QVBoxLayout(reports_page)
-        reports_layout.addWidget(QLabel("Dự Báo KPI Logistic - Đang phát triển"))
         self.main_window.add_content_page(reports_page)
 
         # ML Analytics - Revenue Forecasting
