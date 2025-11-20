@@ -53,7 +53,7 @@ class CoffeeShopAdminApp:
     def load_stylesheet(self):
         """Load application stylesheet"""
         try:
-            style_file = STYLES_DIR / 'style.qss'
+            style_file = STYLES_DIR / 'modern_style.qss'
             if style_file.exists():
                 with open(style_file, 'r', encoding='utf-8') as f:
                     self.app.setStyleSheet(f.read())
@@ -167,8 +167,12 @@ class CoffeeShopAdminApp:
         # Reports (placeholder for now)
         reports_page = QWidget()
         reports_layout = QVBoxLayout(reports_page)
-        reports_layout.addWidget(QLabel("📈 Báo cáo - Đang phát triển"))
         self.main_window.add_content_page(reports_page)
+
+        # ML Analytics - Revenue Forecasting
+        from views.admin_ml_analytics_ex import AdminMLAnalyticsWidget
+        ml_analytics_widget = AdminMLAnalyticsWidget()
+        self.main_window.add_content_page(ml_analytics_widget)
 
         # Store references
         self.dashboard_widget = dashboard_widget
