@@ -1,0 +1,98 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Logs
+logs/*.log
+*.log
+api_logs.log
+monitoring_logs.log
+
+# Models (too large for git)
+models/*.pkl
+models/*.joblib
+
+# Data
+data/*.csv
+!data/logistics_dataset.csv  # Keep original dataset
+
+# Jupyter
+.ipynb_checkpoints/
+notebooks/.ipynb_checkpoints/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Data Outputs
+data/outputs/
+predictions_history.csv
+predictions_output.csv
+performance_metrics.json
+model_comparison_results.csv
+results_*.png
+
+# Process IDs & Temp
+.temp/
+.pid_api
+.pid_dashboard
+
+# Backups
+backups/*.pkl
+backups/*.csv
+backups/*.json
+
+# CatBoost
+catboost_info/
+
+# Docker
+.dockerignore
+
+# OS
+Thumbs.db
+.DS_Store
+
+# Temp files
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Results
+results_*.png
+model_comparison_results.csv

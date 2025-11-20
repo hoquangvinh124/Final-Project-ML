@@ -1,0 +1,8 @@
+include README.md
+include LICENSE
+include deployment/requirements.txt
+recursive-include config *.yaml
+recursive-include data *.csv
+recursive-include docs *.md
+recursive-include scripts *.bat
+recursive-include models *.pkl
