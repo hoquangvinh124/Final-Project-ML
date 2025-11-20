@@ -38,7 +38,7 @@ DB_CONFIG = {
 ```
 
 5. **Cấu hình API Key cho tính năng AI Chat**
-- Tải file `api-key` từ Google Drive: [LINK_DOWNLOAD_API_KEY]
+- Tải file `api-key` từ Google Drive: [https://drive.google.com/drive/u/0/folders/16UOV6-p3NpStQkjXnVqBDE98ZC02jRae]
 - Copy nội dung file và dán vào `utils/config.py`:
 ```python
 OPENAI_API_KEY = "your-api-key-here"  # Dán API key vào đây
