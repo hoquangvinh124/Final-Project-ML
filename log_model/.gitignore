@@ -40,14 +40,6 @@ logs/*.log
 api_logs.log
 monitoring_logs.log
 
-# Models (too large for git)
-models/*.pkl
-models/*.joblib
-
-# Data
-data/*.csv
-!data/logistics_dataset.csv  # Keep original dataset
-
 # Jupyter
 .ipynb_checkpoints/
 notebooks/.ipynb_checkpoints/
