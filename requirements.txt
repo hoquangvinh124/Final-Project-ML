@@ -27,7 +27,7 @@ seaborn==0.13.1
 python-dateutil==2.8.2
 
 # AI and LLM
-openai==1.12.0
+openai>=2.8.0
 
 # Machine Learning
 catboost
